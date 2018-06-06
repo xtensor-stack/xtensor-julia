@@ -1,6 +1,6 @@
-# ![xtensor-julia](deps/xtensor-julia/docs/source/xtensor-julia.svg)
+# ![xtensor-julia](docs/source/xtensor-julia.svg)
 
-[![Travis](https://travis-ci.org/QuantStack/Xtensor.jl.svg?branch=master)](https://travis-ci.org/QuantStack/Xtensor.jl)
+[![Travis](https://travis-ci.org/QuantStack/xtensor-julia.svg?branch=master)](https://travis-ci.org/QuantStack/xtensor-julia.jl)
 [![Appveyor](https://ci.appveyor.com/api/projects/status/jpvvk2m35d1q8woq?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-julia)
 [![Documentation Status](http://readthedocs.org/projects/xtensor-julia/badge/?version=latest)](https://xtensor-julia.readthedocs.io/en/latest/?badge=latest)
 [![Join the Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuantStack/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -15,13 +15,6 @@ Julia bindings for the [xtensor](https://github.com/QuantStack/xtensor) C++ mult
      - A broad coverage of numpy APIs (see [the numpy to xtensor cheat sheet](http://xtensor.readthedocs.io/en/latest/numpy.html)).
 
 The Julia bindings for `xtensor` are based on the [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl/) C++ library.
-
-## Installation
-
-```julia
-Pkg.clone("https://github.com/QuantStack/Xtensor.jl", "Xtensor");
-Pkg.build("Xtensor")
-```
 
 ## Documentation
 
@@ -151,8 +144,6 @@ make html
 from the `docs` subdirectory.
 
 ## Running the C++ tests
-
-From `deps/build`
 
 ```
 cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUILD_TESTS=ON ..

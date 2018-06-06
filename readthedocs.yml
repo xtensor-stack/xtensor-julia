@@ -1,2 +1,2 @@
 conda:
-    file: deps/xtensor-julia/docs/environment.yml
+    file: docs/environment.yml
