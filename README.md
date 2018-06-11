@@ -1,7 +1,7 @@
 # ![xtensor-julia](docs/source/xtensor-julia.svg)
 
-[![Travis](https://travis-ci.org/QuantStack/xtensor-julia.svg?branch=master)](https://travis-ci.org/QuantStack/xtensor-julia.jl)
-[![Appveyor](https://ci.appveyor.com/api/projects/status/jpvvk2m35d1q8woq?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-julia)
+[![Travis](https://travis-ci.org/QuantStack/xtensor-julia.svg?branch=master)](https://travis-ci.org/QuantStack/xtensor-julia)
+[![Appveyor](https://ci.appveyor.com/api/projects/status/86k34nc5iemqmj1y?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-julia)
 [![Documentation Status](http://readthedocs.org/projects/xtensor-julia/badge/?version=latest)](https://xtensor-julia.readthedocs.io/en/latest/?badge=latest)
 [![Join the Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuantStack/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -156,6 +156,7 @@ cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUIL
 | `xtensor-julia` | `xtensor` | `CxxWrap`  |
 |-----------------|-----------|------------|
 | master          |  ^0.16.3  | >=0.6 <0.7 |
+| 0.3.0           |  ^0.16.3  | >=0.6 <0.7 |
 | 0.2.1           |  ^0.16.1  | >=0.5 <0.6 |
 | 0.2.0           |  ^0.16.0  | >=0.5 <0.6 |
 | 0.1.0           |  ^0.15.4  | >=0.5 <0.6 |
