@@ -14,7 +14,7 @@ Julia bindings for the [xtensor](https://github.com/QuantStack/xtensor) C++ mult
      - STL - compliant APIs.
      - A broad coverage of numpy APIs (see [the numpy to xtensor cheat sheet](http://xtensor.readthedocs.io/en/latest/numpy.html)).
 
-The Julia bindings for `xtensor` are based on the [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl/) C++ library.
+The Julia bindings for `xtensor` are based on the [libcxxwrap](https://github.com/JuliaInterop/libcxxwrap-julia/) C++ library.
 
 ## Documentation
 
@@ -41,7 +41,7 @@ Both containers enable the numpy-style APIs of xtensor (see [the numpy to xtenso
 
 ```cpp
 #include <numeric>                        // Standard library import for std::accumulate
-#include <cxx_wrap.hpp>                   // CxxWrap import to define Julia bindings
+#include <cxx_wrap.hpp>                   // libcxxwrap import to define Julia bindings
 #include "xtensor-julia/jltensor.hpp"     // Import the jltensor container definition
 #include "xtensor/xmath.hpp"              // xtensor import for the C++ universal functions
 
@@ -143,26 +143,20 @@ make html
 
 from the `docs` subdirectory.
 
-## Running the C++ tests
+## Running the tests
 
 ```
 cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUILD_TESTS=ON ..
 ```
 
-## Dependencies on `xtensor` and `CxxWrap`
+## Dependencies on `xtensor` and `libcxxwrap-julia`
 
-`xtensor-julia` depends on the `xtensor` and `CxxWrap` libraries
+`xtensor-julia` depends on the `xtensor` and `libcxxwrap-julia` libraries
 
-| `xtensor-julia` | `xtensor` | `CxxWrap`  |
-|-----------------|-----------|------------|
-| master          |  ^0.16.3  | >=0.6 <0.7 |
-| 0.3.0           |  ^0.16.3  | >=0.6 <0.7 |
-| 0.2.1           |  ^0.16.1  | >=0.5 <0.6 |
-| 0.2.0           |  ^0.16.0  | >=0.5 <0.6 |
-| 0.1.0           |  ^0.15.4  | >=0.5 <0.6 |
-| 0.0.11          |  ^0.15.1  | >=0.5 <0.6 |
-| 0.0.10          |  ^0.14.1  | >=0.5 <0.6 |
-| 0.0.9           |  ^0.13.1  | >=0.5 <0.6 |
+| `xtensor-julia` | `xtensor` | `libcxxwrap`  |
+|-----------------|-----------|---------------|
+| master          |  ^0.16.3  | >=0.2.3 <0.4  |
+| 0.3.0           |  ^0.16.3  | >=0.2.3 <0.4  |
 
 These dependencies are automatically resolved when using the Julia package manager.
 
