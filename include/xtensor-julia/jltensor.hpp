@@ -43,8 +43,8 @@ namespace xt
     {
         using storage_type = xbuffer_adaptor<jlcxx::mapped_julia_type<T>*>;
         using shape_type = std::array<std::size_t, N>;
-        using strides_type = shape_type;
-        using backstrides_type = shape_type;
+        using strides_type = std::array<std::ptrdiff_t, N>;
+        using backstrides_type = strides_type;
         using inner_shape_type = shape_type;
         using inner_strides_type = strides_type;
         using inner_backstrides_type = backstrides_type;
@@ -57,8 +57,8 @@ namespace xt
     {
         using storage_type = xbuffer_adaptor<std::complex<T>*>;
         using shape_type = std::array<std::size_t, N>;
-        using strides_type = shape_type;
-        using backstrides_type = shape_type;
+        using strides_type = std::array<std::ptrdiff_t, N>;
+        using backstrides_type = strides_type;
         using inner_shape_type = shape_type;
         using inner_strides_type = strides_type;
         using inner_backstrides_type = backstrides_type;
