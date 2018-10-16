@@ -30,9 +30,9 @@ message(STATUS "xtensor-julia v${${PROJECT_NAME}_VERSION}")
 # Dependencies
 # ============
 
-find_package(xtl 0.4.14 REQUIRED)
+find_package(xtl 0.4.16 REQUIRED)
 message(STATUS "Found xtl: ${xtl_INCLUDE_DIRS}/xtl")
-find_package(xtensor 0.17.1 REQUIRED)
+find_package(xtensor 0.18.0 REQUIRED)
 message(STATUS "Found xtensor: ${xtensor_INCLUDE_DIRS}/xtensor")
 find_package(JlCxx REQUIRED)
 message(STATUS "Found JlCxx: ${JlCxx_INCLUDE_DIRS}")
