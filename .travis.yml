@@ -92,7 +92,8 @@ install:
     - conda update -q conda
     - conda info -a
     # Install xtensor and other conda requirements
-    - conda install xtensor==0.17.1 cmake -c conda-forge
+    - conda install cmake -c conda-forge
+    - conda install xtensor==0.18.0 -c QuantStack
     # Install CxxWrap
     # TODO: switch to libcxxwrap-julia on linux
     - julia -E "Pkg.add(\"CxxWrap\", v\"0.6.0\", v\"0.7.0\")"
