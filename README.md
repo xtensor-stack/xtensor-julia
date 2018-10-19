@@ -153,12 +153,13 @@ cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUIL
 
 `xtensor-julia` depends on the `xtensor` and `libcxxwrap-julia` libraries
 
-| `xtensor-julia` | `xtensor` | `libcxxwrap`  |
-|-----------------|-----------|---------------|
-| master          |  ^0.18.0  | >=0.2.3 <0.4  |
-| 0.5.0           |  ^0.18.0  | >=0.2.3 <0.4  |
-| 0.4.0           |  ^0.17.1  | >=0.2.3 <0.4  |
-| 0.3.0           |  ^0.16.3  | >=0.2.3 <0.4  |
+| `xtensor-julia` | `xtensor` | `libcxxwrap`  | `julia`        |
+|-----------------|-----------|---------------|----------------|
+| master          |  ^0.18.1  | >=0.5.1,<0.6  | >=1.0.0        |
+| 0.6.0           |  ^0.18.1  | >=0.5.1,<0.6  | >=1.0.0        |
+| 0.5.0           |  ^0.18.0  | >=0.2.3,<0.4  | >=0.6.0,<1.0.0 |
+| 0.4.0           |  ^0.17.1  | >=0.2.3,<0.4  | >=0.6.0,<0.7.0 |
+| 0.3.0           |  ^0.16.3  | >=0.2.3,<0.4  | >=0.6.0,<0.7.0 |
 
 These dependencies are automatically resolved when using the Julia package manager.
 
