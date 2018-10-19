@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 sudo: required
 language: julia
 matrix:
@@ -9,27 +9,9 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.9
-      env: COMPILER=gcc GCC=4.9
-      julia: 0.6.0
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
             - g++-5
       env: COMPILER=gcc GCC=5
-      julia: 0.6.0
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env: COMPILER=gcc GCC=5 JULIA=0.6.1
-      julia: 0.6.1
+      julia: 1.0.1
     - os: linux
       addons:
         apt:
@@ -37,8 +19,17 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-6
-      env: COMPILER=gcc GCC=6 JULIA=0.6.1
-      julia: 0.6.1
+      env: COMPILER=gcc GCC=6
+      julia: 1.0.1
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env: COMPILER=gcc GCC=7
+      julia: 1.0.1
     - os: linux
       addons:
         apt:
@@ -51,11 +42,11 @@ matrix:
     - os: osx
       osx_image: xcode8
       compiler: clang
-      julia: 0.6.0
+      julia: 1.0.1
     - os: osx
       osx_image: xcode8
       compiler: clang
-      julia: 0.6.1
+      julia: 1.0.1
   allow_failures:
     - julia: nightly
 env:
@@ -93,25 +84,18 @@ install:
     - conda info -a
     # Install xtensor and other conda requirements
     - conda install cmake -c conda-forge
-    - conda install xtensor==0.18.0 -c QuantStack
+    - conda install xtensor==0.18.1 -c QuantStack
     # Install CxxWrap
     # TODO: switch to libcxxwrap-julia on linux
-    - julia -E "Pkg.add(\"CxxWrap\", v\"0.6.0\", v\"0.7.0\")"
-    - julia -E "Pkg.status()"
-    # Build pure Cpp tests, but not on 0.6.1
-    - |
-      if [[ "$JULIA" != "0.6.1" ]]; then
-        JlCxx_DIR=$(julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")")
-        JlCxx_DIR=${JlCxx_DIR//\"/}
-        mkdir build
-        cd build
-        cmake -D DOWNLOAD_GTEST=ON -D JlCxx_DIR=$JlCxx_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda ..
-        make -j2 test_xtensor_julia
-      fi
+    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
+    - julia -E "using Pkg; Pkg.status()"
+    - JlCxx_DIR=$(julia -E "using Pkg; Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")")
+    - JlCxx_DIR=${JlCxx_DIR//\"/}
+    - mkdir build
+    - cd build
+    - cmake -D DOWNLOAD_GTEST=ON -D JlCxx_DIR=$JlCxx_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda ..
+    - make -j2 test_xtensor_julia
 
 script:
-    - |
-      if [[ "$JULIA" != "0.6.1" ]]; then
-        make xtest
-      fi
+    - make xtest
 

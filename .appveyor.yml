@@ -19,10 +19,10 @@ init:
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%MINICONDA%\\Library\\bin;%PATH%"
   # Download most recent Julia Windows binary
   - ps: if($env:Platform -eq "x64"){(new-object net.webclient).DownloadFile(
-        $("http://s3.amazonaws.com/"+"julialang/bin/winnt/x64/0.6/julia-0.6-latest-win64.exe"),
+        $("https://julialang-s3.julialang.org/bin/winnt/x64/1.0/julia-1.0.1-win64.exe"),
         "C:\projects\julia-binary.exe")}
   - ps: if($env:Platform -eq "x86"){(new-object net.webclient).DownloadFile(
-        $("http://s3.amazonaws.com/"+"julialang/bin/winnt/x86/0.6/julia-0.6-latest-win32.exe"),
+        $("https://julialang-s3.julialang.org/bin/winnt/x86/1.0/julia-1.0.1-win32.exe"),
         "C:\projects\julia-binary.exe")}
   # Run installer silently, output to C:\projects\julia-build
   - C:\projects\julia-binary.exe /S /D=C:\projects\julia-build
@@ -33,12 +33,12 @@ install:
   - conda update -q conda
   - conda info -a
   - conda install gtest cmake -c conda-forge
-  - conda install xtensor==0.18.0 -c QuantStack
+  - conda install xtensor==0.18.1 -c QuantStack
   # Install CxxWrap
   - set BUILD_ON_WINDOWS=1
-  - C:\projects\julia-build\bin\julia -E "Pkg.add(\"CxxWrap\", v\"0.6.0\", v\"0.7.0\")"
+  - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
   # Build pure Cpp tests
-  - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")" > temp.txt
+  - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")" > temp.txt
   - set /p JlCxx_DIR=<temp.txt
   - set JlCxx_DIR=%JlCxx_DIR:"=%
   - mkdir build
@@ -47,7 +47,7 @@ install:
   - nmake test_xtensor_julia
 
 build_script:
-  - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\")" > temp.txt
+  - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\")" > temp.txt
   - set /p JlCxx_BINDIR=<temp.txt
   - set JlCxx_BINDIR=%JlCxx_BINDIR:"=%
   - set PATH=%PATH%;C:\projects\julia-build\bin;%JlCxx_BINDIR%
