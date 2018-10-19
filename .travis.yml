@@ -1,17 +1,8 @@
-dist: trusty
+dist: xenial
 sudo: required
 language: julia
 matrix:
   include:
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-      env: COMPILER=gcc GCC=4.9
-      julia: 1.0.1
     - os: linux
       addons:
         apt:
@@ -29,6 +20,15 @@ matrix:
           packages:
             - g++-6
       env: COMPILER=gcc GCC=6
+      julia: 1.0.1
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env: COMPILER=gcc GCC=7
       julia: 1.0.1
     - os: linux
       addons:
