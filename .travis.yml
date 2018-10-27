@@ -86,11 +86,12 @@ install:
     - conda install cmake -c conda-forge
     - conda install xtensor==0.18.1 -c QuantStack
     # Install CxxWrap
-    # TODO: switch to libcxxwrap-julia on linux
+    # TODO: switch to standalone libcxxwrap-julia
     - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
-    - julia -E "using Pkg; Pkg.status()"
-    - JlCxx_DIR=$(julia -E "using Pkg; Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")")
+    # Retrieve JlCxx_DIR from CxxWrap
+    - JlCxx_DIR=$(julia -E "using CxxWrap; joinpath(dirname(pathof(CxxWrap)), \"..\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")")
     - JlCxx_DIR=${JlCxx_DIR//\"/}
+    # Build xtensor-julia tests
     - mkdir build
     - cd build
     - cmake -D DOWNLOAD_GTEST=ON -D JlCxx_DIR=$JlCxx_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda ..

@@ -35,20 +35,22 @@ install:
   - conda install gtest cmake -c conda-forge
   - conda install xtensor==0.18.1 -c QuantStack
   # Install CxxWrap
-  - set BUILD_ON_WINDOWS=1
   - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
-  # Build pure Cpp tests
-  - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")" > temp.txt
+  # Retrieve JlCxx_DIR from CxxWrap
+  - C:\projects\julia-build\bin\julia -E "using CxxWrap; joinpath(dirname(pathof(CxxWrap)), \"..\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")" > temp.txt
   - set /p JlCxx_DIR=<temp.txt
   - set JlCxx_DIR=%JlCxx_DIR:"=%
+  # Build xtensor-julia tests
   - mkdir build
   - cd build
   - cmake -G "NMake Makefiles" -D JlCxx_DIR=%JlCxx_DIR% -D CMAKE_INSTALL_PREFIX=%MINICONDA%\\LIBRARY -D BUILD_TESTS=ON -D CMAKE_PROGRAM_PATH=C:\projects\julia-build\bin\ ..
   - nmake test_xtensor_julia
 
 build_script:
-  - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\")" > temp.txt
+  # Add CxxWrap's vendored prefix to PATH
+  - C:\projects\julia-build\bin\julia -E "using CxxWrap; joinpath(dirname(pathof(CxxWrap)), \"..\", \"deps\", \"usr\", \"lib\")" > temp.txt
   - set /p JlCxx_BINDIR=<temp.txt
   - set JlCxx_BINDIR=%JlCxx_BINDIR:"=%
   - set PATH=%PATH%;C:\projects\julia-build\bin;%JlCxx_BINDIR%
+  # Run tests
   - nmake xtest
