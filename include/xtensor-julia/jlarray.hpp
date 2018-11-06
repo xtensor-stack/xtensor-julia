@@ -101,6 +101,9 @@ namespace xt
         explicit jlarray(const shape_type& shape, const_reference value);
         jlarray(jl_array_t* jl);
 
+        template <class S = shape_type>
+        static jlarray from_shape(S&& shape);
+
         jlarray(const self_type&);
         self_type& operator=(const self_type&);
 
@@ -252,6 +255,15 @@ namespace xt
     {
         init_from_julia();
     }
+
+    template <class T>
+    template <class S>
+    inline jlarray<T> jlarray<T>::from_shape(S&& shape)
+    {
+        shape_type shp = xtl::forward_sequence<shape_type>(shape);
+        return jlarray<T>(std::move(shp));
+    }
+
     //@}
 
     /**

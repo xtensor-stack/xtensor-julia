@@ -95,6 +95,9 @@ namespace xt
         explicit jltensor(const shape_type& shape, const_reference value);
         jltensor(jl_array_t* jl);
 
+        template <class S = shape_type>
+        static jltensor from_shape(S&& shape);
+
         jltensor(const self_type&);
         self_type& operator=(const self_type&);
 
@@ -201,6 +204,14 @@ namespace xt
         : base_type(jl)
     {
         init_from_julia();
+    }
+
+    template <class T, std::size_t N>
+    template <class S>
+    inline jltensor<T, N> jltensor<T, N>::from_shape(S&& shape)
+    {
+        auto shp = xtl::forward_sequence<shape_type>(shape);
+        return self_type(shp);
     }
     //@}
 

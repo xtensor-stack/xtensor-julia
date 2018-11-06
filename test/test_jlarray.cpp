@@ -162,4 +162,12 @@ namespace xt
         jlarray<int> a;
         EXPECT_EQ(0, a());
     }
+
+    TEST(jlarray, from_shape)
+    {
+        auto tens = jlarray<int>::from_shape({5, 4});
+        EXPECT_EQ(tens.shape()[0], 5);
+        EXPECT_EQ(tens.shape()[1], 4);
+        EXPECT_EQ(tens.size(), 20);
+    }
 }
