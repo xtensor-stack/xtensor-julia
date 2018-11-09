@@ -164,4 +164,11 @@ namespace xt
         EXPECT_EQ(0, a());
     }
 
+    TEST(jltensor, from_shape)
+    {
+        auto tens = jltensor<int, 2>::from_shape({5, 5});
+        EXPECT_EQ(tens.shape()[0], 5);
+        EXPECT_EQ(tens.shape()[1], 5);
+        EXPECT_EQ(tens.size(), 25);
+    }
 }
