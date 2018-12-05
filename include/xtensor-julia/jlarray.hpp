@@ -260,7 +260,7 @@ namespace xt
     template <class S>
     inline jlarray<T> jlarray<T>::from_shape(S&& shape)
     {
-        shape_type shp = xtl::forward_sequence<shape_type>(shape);
+        shape_type shp = xtl::forward_sequence<shape_type, S>(shape);
         return jlarray<T>(std::move(shp));
     }
 
@@ -281,7 +281,7 @@ namespace xt
         m_backstrides = rhs.m_backstrides;
 
         // TODO: prevent intermediary shape_type
-        shape_type shape = xtl::forward_sequence<shape_type>(rhs.shape());
+        shape_type shape = xtl::forward_sequence<shape_type, decltype(rhs.shape())>(rhs.shape());
         init_array(shape);
         std::copy(rhs.storage().cbegin(), rhs.storage().cend(), this->storage().begin());
     }
@@ -311,7 +311,7 @@ namespace xt
         : base_type()
     {
         // TODO: prevent intermediary shape type
-        shape_type shape = xtl::forward_sequence<shape_type>(e.derived_cast().shape());
+        shape_type shape = xtl::forward_sequence<shape_type, decltype(e.derived_cast().shape())>(e.derived_cast().shape());
         m_strides = xtl::make_sequence<inner_strides_type>(shape.size(), difference_type(0));
         m_backstrides = xtl::make_sequence<inner_backstrides_type>(shape.size(), difference_type(0));
         xt::compute_strides(shape, layout_type::column_major, m_strides, m_backstrides);

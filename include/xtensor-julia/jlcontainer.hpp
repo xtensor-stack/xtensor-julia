@@ -116,7 +116,7 @@ namespace xt
     {
         if (force || shape.size() != this->dimension() || !std::equal(std::begin(shape), std::end(shape), this->shape().cbegin()))
         {
-            derived_type tmp(xtl::forward_sequence<shape_type>(shape));
+            derived_type tmp(xtl::forward_sequence<shape_type, S>(shape));
             *static_cast<derived_type*>(this) = std::move(tmp);
         }
     }

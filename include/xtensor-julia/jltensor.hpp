@@ -210,7 +210,7 @@ namespace xt
     template <class S>
     inline jltensor<T, N> jltensor<T, N>::from_shape(S&& shape)
     {
-        auto shp = xtl::forward_sequence<shape_type>(shape);
+        auto shp = xtl::forward_sequence<shape_type, S>(shape);
         return self_type(shp);
     }
     //@}
@@ -255,7 +255,7 @@ namespace xt
     inline jltensor<T, N>::jltensor(const xexpression<E>& e)
         : base_type()
     {
-        m_shape = xtl::forward_sequence<shape_type>(e.derived_cast().shape());
+        m_shape = xtl::forward_sequence<shape_type, decltype(e.derived_cast().shape())>(e.derived_cast().shape());
         xt::compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
         semantic_base::assign(e);
