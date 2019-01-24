@@ -115,6 +115,42 @@ z
  [-1.084323 -0.583843  0.45342   1.073811  0.706945]]
 ```
 
+## Installation
+
+### Installation of the standalone C++ library
+
+`xtensor-julia` a header-only C++ library. It has been packaged for the conda package manager.
+
+```bash
+conda install xtensor-julia -c conda-forge
+```
+
+`xtensor-r` can be installed from source with cmake in any installation prefix. For example, on unix systems
+
+```bash
+cmake -D CMAKE_INSTALL_PREFIX=/prefix/path/
+make
+make install
+```
+
+### Installation of the Julia package
+ 
+We also provide a Julia package for xtensor, which has been packaged for both conda and Pkg (Julia's package manager). The repository for the Julia package is https://github.com/QuantStack/Xtensor.jl.
+ 
+To install the conda package:
+
+```bash
+conda install Xtensor.jl -c conda-forge
+```
+
+To install the Julia package:
+
+```julia
+using Pkg; Pkg.add("Xtensor");
+```
+
+The Julia available from the Julia package manager vendors the headers for `xtensor-julia`, xtensor`, `xtl` and `xsimd`.
+
 ## Building the HTML Documentation
 
 `xtensor-julia`'s documentation is built with three tools

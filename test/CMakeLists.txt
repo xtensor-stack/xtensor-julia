@@ -78,7 +78,7 @@ if (DOWNLOAD_GTEST OR GTEST_SRC_DIR)
     # Add googletest directly to our build. This defines
     # the gtest and gtest_main targets.
     add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
-                     ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
+                     ${CMAKE_CURRENT_BINARY_DIR}/googletest-build EXCLUDE_FROM_ALL)
 
     set(GTEST_INCLUDE_DIRS "${gtest_SOURCE_DIR}/include")
     set(GTEST_BOTH_LIBRARIES gtest_main gtest)
@@ -106,15 +106,15 @@ set(XTENSOR_JULIA_TESTS
 
 set(XTENSOR_JULIA_TARGET test_xtensor_julia)
 
-add_executable(${XTENSOR_JULIA_TARGET} ${XTENSOR_JULIA_TESTS} ${XTENSOR_JULIA_HEADERS} ${XTENSOR_HEADERS})
+add_executable(test_xtensor_julia ${XTENSOR_JULIA_TESTS} ${XTENSOR_JULIA_HEADERS} ${XTENSOR_HEADERS})
 
 if(DOWNLOAD_GTEST OR GTEST_SRC_DIR)
-    add_dependencies(${XTENSOR_JULIA_TARGET} gtest_main)
+    add_dependencies(test_xtensor_julia gtest_main)
 endif()
-target_link_libraries(${XTENSOR_JULIA_TARGET} ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} JlCxx::cxxwrap_julia)
+target_link_libraries(test_xtensor_julia ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} JlCxx::cxxwrap_julia)
 
 if(UNIX)
-    add_custom_target(xtest COMMAND export JULIA_HOME=${JULIA_HOME} && ./test_xtensor_julia DEPENDS ${XTENSOR_JULIA_TARGET})
+    add_custom_target(xtest COMMAND export JULIA_HOME=${JULIA_HOME} && ./test_xtensor_julia DEPENDS test_xtensor_julia)
 else()
-    add_custom_target(xtest COMMAND set JULIA_HOME=${JULIA_HOME} && .\\test_xtensor_julia DEPENDS ${XTENSOR_JULIA_TARGET})
+    add_custom_target(xtest COMMAND set JULIA_HOME=${JULIA_HOME} && .\\test_xtensor_julia DEPENDS test_xtensor_julia)
 endif()
