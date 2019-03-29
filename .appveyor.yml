@@ -33,7 +33,7 @@ install:
   - conda update -q conda
   - conda info -a
   - conda install gtest cmake -c conda-forge
-  - conda install xtensor==0.19.0 -c conda-forge
+  - conda install xtensor==0.20.0 -c conda-forge
   # Install CxxWrap
   - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
   # Retrieve JlCxx_DIR from CxxWrap

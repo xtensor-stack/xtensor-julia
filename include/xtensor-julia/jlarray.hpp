@@ -42,6 +42,9 @@ namespace xt
     struct xcontainer_inner_types<jlarray<T>>
     {
         using storage_type = xbuffer_adaptor<jlcxx::mapped_julia_type<T>*>;
+        using reference = typename storage_type::reference;
+        using const_reference = typename storage_type::const_reference;
+        using size_type = typename storage_type::size_type;
         using shape_type = std::vector<std::size_t>;
         using strides_type = std::vector<std::ptrdiff_t>;
         using backstrides_type = strides_type;
