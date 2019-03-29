@@ -11,8 +11,8 @@ project(xtensor-julia)
 
 set(XTENSOR_JULIA_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-# Versionning
-# ===========
+# Versioning
+# ==========
 
 set(XTENSOR_JULIA_CONFIG_FILE
     "${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/xtensor_julia_config.hpp")
@@ -48,6 +48,13 @@ set(XTENSOR_JULIA_HEADERS
     ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/xtensor_julia_config.hpp
 )
 
+add_library(xtensor-julia INTERFACE)
+target_include_directories(xtensor-julia INTERFACE
+    "$<BUILD_INTERFACE:${XTENSOR_JULIA_INCLUDE_DIR}>"
+    $<INSTALL_INTERFACE:include>)
+target_link_libraries(xtensor-julia INTERFACE xtensor)
+get_target_property(inc_dir xtensor-julia INTERFACE_INCLUDE_DIRECTORIES)
+
 OPTION(BUILD_TESTS "xtensor test suite" OFF)
 OPTION(DOWNLOAD_GTEST "build gtest from downloaded sources" OFF)
 
@@ -68,6 +75,13 @@ endif()
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
+
+install(TARGETS xtensor-julia
+        EXPORT ${PROJECT_NAME}-targets)
+
+# Makes the project importable from the build directory
+export(EXPORT ${PROJECT_NAME}-targets
+       FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake")
 
 install(FILES ${XTENSOR_JULIA_HEADERS}
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/xtensor-julia)
@@ -91,5 +105,8 @@ write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Conf
 set(CMAKE_SIZEOF_VOID_P ${_XTENSOR_CMAKE_SIZEOF_VOID_P})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        DESTINATION ${XTENSOR_JULIA_CMAKECONFIG_INSTALL_DIR})
+install(EXPORT ${PROJECT_NAME}-targets
+        FILE ${PROJECT_NAME}Targets.cmake
         DESTINATION ${XTENSOR_JULIA_CMAKECONFIG_INSTALL_DIR})
 

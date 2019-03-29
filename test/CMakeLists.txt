@@ -104,14 +104,12 @@ set(XTENSOR_JULIA_TESTS
     test_jlvectorize.cpp
 )
 
-set(XTENSOR_JULIA_TARGET test_xtensor_julia)
-
 add_executable(test_xtensor_julia ${XTENSOR_JULIA_TESTS} ${XTENSOR_JULIA_HEADERS} ${XTENSOR_HEADERS})
 
 if(DOWNLOAD_GTEST OR GTEST_SRC_DIR)
     add_dependencies(test_xtensor_julia gtest_main)
 endif()
-target_link_libraries(test_xtensor_julia ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} JlCxx::cxxwrap_julia)
+target_link_libraries(test_xtensor_julia xtensor-julia ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} JlCxx::cxxwrap_julia)
 
 if(UNIX)
     add_custom_target(xtest COMMAND export JULIA_HOME=${JULIA_HOME} && ./test_xtensor_julia DEPENDS test_xtensor_julia)
