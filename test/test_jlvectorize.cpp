@@ -43,16 +43,14 @@ namespace xt
         EXPECT_EQ(a(0, 0) + b(0, 0), c(0, 0));
     }
 
-/*
     TEST(jlvectorize, complex)
     {
         using complex_t = std::complex<double>;
         shape_type shape = { 3, 2 };
         jlarray<complex_t> a(shape, complex_t(1.2, 2.5));
-        auto f = jlvectorize([](complex_t x) { return std::abs(x); });
-        auto res = f(a);
+        // auto f = jlvectorize([](complex_t x) { return std::abs(x); });
+        // auto res = f(a);
         double exp = std::abs(a(1, 1));
-        EXPECT_EQ(exp, res(1, 1));
+        // EXPECT_EQ(exp, res(1, 1));
     }
-*/
 }
