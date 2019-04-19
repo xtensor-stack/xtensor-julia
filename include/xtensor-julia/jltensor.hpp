@@ -59,6 +59,9 @@ namespace xt
     struct xcontainer_inner_types<jltensor<std::complex<T>, N>>
     {
         using storage_type = xbuffer_adaptor<std::complex<T>*>;
+        using reference = typename storage_type::reference;
+        using const_reference = typename storage_type::const_reference;
+        using size_type = typename storage_type::size_type;
         using shape_type = std::array<std::size_t, N>;
         using strides_type = std::array<std::ptrdiff_t, N>;
         using backstrides_type = strides_type;
