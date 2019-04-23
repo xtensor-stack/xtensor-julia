@@ -87,7 +87,7 @@ install:
     - conda install xtensor==0.20.4 -c conda-forge
     # Install CxxWrap
     # TODO: switch to standalone libcxxwrap-julia
-    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
+    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.2\"))"
     # Retrieve JlCxx_DIR from CxxWrap
     - JlCxx_DIR=$(julia -E "using CxxWrap; joinpath(dirname(pathof(CxxWrap)), \"..\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")")
     - JlCxx_DIR=${JlCxx_DIR//\"/}
