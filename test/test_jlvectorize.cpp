@@ -48,7 +48,7 @@ namespace xt
         using complex_t = std::complex<double>;
         shape_type shape = { 3, 2 };
         jlarray<complex_t> a(shape, complex_t(1.2, 2.5));
-        JL_PUSH(a.wrapped());
+        JL_GC_PUSH1(a.wrapped());
         // auto f = jlvectorize([](complex_t x) { return std::abs(x); });
         // auto res = f(a);
         double exp = std::abs(a(1, 1));
