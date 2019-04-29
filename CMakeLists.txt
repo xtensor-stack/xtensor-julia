@@ -34,7 +34,7 @@ find_package(xtl 0.6.2 REQUIRED)
 message(STATUS "Found xtl: ${xtl_INCLUDE_DIRS}/xtl")
 find_package(xtensor 0.20.4 REQUIRED)
 message(STATUS "Found xtensor: ${xtensor_INCLUDE_DIRS}/xtensor")
-find_package(JlCxx 0.5.1 REQUIRED)
+find_package(JlCxx 0.5.3 REQUIRED)
 message(STATUS "Found JlCxx: ${JlCxx_INCLUDE_DIRS}")
 
 # Build
