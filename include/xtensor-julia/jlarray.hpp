@@ -19,6 +19,7 @@
 #include "xtensor/xsemantic.hpp"
 
 #include "jlcxx/type_conversion.hpp"
+#include "jlcxx/module.hpp"
 
 #include "jlcontainer.hpp"
 
@@ -454,9 +455,10 @@ namespace jlcxx
 
         static jl_datatype_t* julia_type()
         {
+            jl_module_t* current_mod = jlcxx::registry().has_current_module() ? jlcxx::registry().current_module().julia_module() : nullptr;
             // Array{T}
             return (jl_datatype_t*)apply_type(
-                jl_get_global(jl_current_module, jl_symbol("Array")),
+                jl_get_global(current_mod, jl_symbol("Array")),
                 jl_svec1(jlcxx::julia_type<T>()));
         }
     };
