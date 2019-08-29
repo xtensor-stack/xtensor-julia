@@ -51,10 +51,10 @@ double sum_of_sines(xt::jltensor<double, 2> m)
     return std::accumulate(sines.cbegin(), sines.cend(), 0.0);
 }
 
-JULIA_CPP_MODULE_BEGIN(registry)
-    cxx_wrap::Module mod = registry.create_module("xtensor_julia_test");
+JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
+{
     mod.method("sum_of_sines", sum_of_sines);
-JULIA_CPP_MODULE_END
+}
 ```
 
 **Julia Code**
@@ -88,10 +88,10 @@ double scalar_func(double i, double j)
     return std::sin(i) - std::cos(j);
 }
 
-JULIA_CPP_MODULE_BEGIN(registry)
-    cxx_wrap::Module mod = registry.create_module("xtensor_julia_test");
+JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
+{
     mod.method("vectorized_func", xt::jlvectorize(scalar_func));
-JULIA_CPP_MODULE_END
+}
 ```
 
 **Julia Code**
