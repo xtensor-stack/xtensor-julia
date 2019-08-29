@@ -25,10 +25,10 @@ Example 1: Use an algorithm of the C++ library with a Julia array
         return std::accumulate(sines.cbegin(), sines.cend(), 0.0);
     }
 
-    JULIA_CPP_MODULE_BEGIN(registry)
-        jlcxx::Module mod = registry.create_module("xtensor_julia_test");
+    JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
+    {
         mod.method("sum_of_sines", sum_of_sines);
-    JULIA_CPP_MODULE_END
+    }
 
 **Julia code:**
 
@@ -64,10 +64,10 @@ Example 2: Create a numpy-style universal function from a C++ scalar function
         return std::sin(i) - std::cos(j);
     }
 
-    JULIA_CPP_MODULE_BEGIN(registry)
-        jlcxx::Module mod = registry.create_module("xtensor_julia_test");
+    JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
+    {
         mod.method("vectorized_func", xt::jlvectorize(scalar_func));
-    JULIA_CPP_MODULE_END
+    }
 
 **Julia code:**
 
