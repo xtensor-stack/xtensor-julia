@@ -1,11 +1,11 @@
 # ![xtensor-julia](docs/source/xtensor-julia.svg)
 
-[![Travis](https://travis-ci.org/QuantStack/xtensor-julia.svg?branch=master)](https://travis-ci.org/QuantStack/xtensor-julia)
-[![Appveyor](https://ci.appveyor.com/api/projects/status/86k34nc5iemqmj1y?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-julia)
+[![Travis](https://travis-ci.org/xtensor-stack/xtensor-julia.svg?branch=master)](https://travis-ci.org/xtensor-stack/xtensor-julia)
+[![Appveyor](https://ci.appveyor.com/api/projects/status/medjr8ivtaabb6xc?svg=true)](https://ci.appveyor.com/project/xtensor-stack/xtensor-julia)
 [![Documentation Status](http://readthedocs.org/projects/xtensor-julia/badge/?version=latest)](https://xtensor-julia.readthedocs.io/en/latest/?badge=latest)
 [![Join the Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuantStack/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Julia bindings for the [xtensor](https://github.com/QuantStack/xtensor) C++ multi-dimensional array library.
+Julia bindings for the [xtensor](https://github.com/xtensor-stack/xtensor) C++ multi-dimensional array library.
 
  - `xtensor` is a C++ library for multi-dimensional arrays enabling numpy-style broadcasting and lazy computing.
  - `xtensor-julia` enables inplace use of julia arrays in C++ with all the benefits from `xtensor`
@@ -135,7 +135,7 @@ make install
 
 ### Installation of the Julia package
  
-We also provide a Julia package for xtensor, which has been packaged for both conda and Pkg (Julia's package manager). The repository for the Julia package is https://github.com/QuantStack/Xtensor.jl.
+We also provide a Julia package for xtensor, which has been packaged for both conda and Pkg (Julia's package manager). The repository for the Julia package is https://github.com/xtensor-stack/Xtensor.jl.
  
 To install the conda package:
 
