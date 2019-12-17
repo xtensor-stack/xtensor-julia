@@ -68,6 +68,7 @@ namespace xt
         void reshape(S&& shape);
 
         layout_type layout() const;
+        bool is_contiguous() const noexcept;
 
         using base_type::operator();
         using base_type::operator[];
@@ -87,9 +88,6 @@ namespace xt
         jlcontainer(jlcontainer&&) = default;
         jlcontainer& operator=(jlcontainer&&) = default;
         jlcontainer(jl_array_t*) noexcept;
-
-        derived_type& derived_cast();
-        const derived_type& derived_cast() const;
 
         jl_array_t* p_array;
     };
@@ -118,7 +116,7 @@ namespace xt
         if (force || shape.size() != this->dimension() || !std::equal(std::begin(shape), std::end(shape), this->shape().cbegin()))
         {
             derived_type tmp(xtl::forward_sequence<shape_type, S>(shape));
-            *static_cast<derived_type*>(this) = std::move(tmp);
+            this->derived_cast() = std::move(tmp);
         }
     }
 
@@ -177,15 +175,9 @@ namespace xt
     }
 
     template <class D>
-    inline auto jlcontainer<D>::derived_cast() -> derived_type&
+    inline bool jlcontainer<D>::is_contiguous() const noexcept
     {
-        return *static_cast<derived_type*>(this);
-    }
-
-    template <class D>
-    inline auto jlcontainer<D>::derived_cast() const -> const derived_type&
-    {
-        return *static_cast<const derived_type*>(this);
+        return this->derived_cast().strides().front() == difference_type(1);
     }
 
     /**
