@@ -7,22 +7,34 @@
 * The full license is in the file LICENSE, distributed with this software. *
 ****************************************************************************/
 
+// Workaround for https://github.com/JuliaLang/julia/issues/34201#issuecomment-817081705.
+#ifdef _MSC_VER
+    #define NOMINMAX
+    #include <uv.h>
+    #include <windows.h>
+
+    template<typename T>
+    static inline T jl_atomic_load_relaxed(volatile T *obj)
+    {
+        return jl_atomic_load_acquire(obj);
+    }
+#endif
+
 #include <julia.h>
 
 #include "gtest/gtest.h"
 
 #include <iostream>
 
+#include <jlcxx/module.hpp>
+
 int main(int argc, char* argv[])
 {
-    // Initialize all the things (google-test and Julia interpreter)
-#if JULIA_VERSION_MAJOR == 0 && JULIA_VERSION_MINOR < 6
-    jl_init(NULL);
-#else
-    jl_init();
-#endif
+    jlcxx::cxxwrap_init();
 
     ::testing::InitGoogleTest(&argc, argv);
+
+    jlcxx::register_core_types();
 
     // Run test suite
     int ret = RUN_ALL_TESTS();

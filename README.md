@@ -182,7 +182,7 @@ from the `docs` subdirectory.
 ## Running the tests
 
 ```
-cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUILD_TESTS=ON ..
+cmake -D BUILD_TESTS=ON ..
 ```
 
 ## Dependencies on `xtensor` and `libcxxwrap-julia`
@@ -191,7 +191,7 @@ cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUIL
 
 | `xtensor-julia` | `xtensor` | `libcxxwrap`  | `julia`        |
 |-----------------|-----------|---------------|----------------|
-| master          |  ^0.21.2  | >=0.5.3,<0.6  | >=1.0.0,<2.0   |
+| master          |  ^0.24.0  | >=0.8.3,<0.9  | >=1.6.4,<2.0   |
 | 0.9.0           |  ^0.21.2  | >=0.5.3,<0.6  | >=1.0.0,<2.0   |
 | 0.8.4           |  ^0.20.8  | >=0.5.3,<0.6  | >=1.0.0,<2.0   |
 | 0.8.3           |  ^0.20.8  | >=0.5.3,<0.6  | >=1.0.0,<2.0   |

@@ -1,0 +1,156 @@
+name: CI
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  unix:
+    
+    runs-on: ${{ matrix.os }}
+     
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-18.04, macos-10.15]
+        include:
+          - os: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get number of CPU cores
+        uses: SimenB/github-actions-cpu-cores@v1
+
+      - name: install mamba
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: environment-dev.yml
+          environment-name: xtensor-julia
+
+      - name: install build dependencies
+        shell: bash -l {0}
+        run: |
+          $HOME/micromamba-bin/micromamba install cmake cxx-compiler -c conda-forge -y
+
+      # Cannot use julia from setup-julia because of https://github.com/julia-actions/setup-julia/issues/89
+      # - name: install julia
+      #   uses: julia-actions/setup-julia@v1
+      #   with:
+      #     version: 1.6.3
+
+      - name: install CxxWrap
+        run: |
+          julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
+
+      - name: cmake configure
+        shell: bash -l {0}
+        run: |
+          JlCxx_DIR=$(julia -E "using CxxWrap; joinpath(CxxWrap.prefix_path(), \"lib\", \"cmake\", \"JlCxx\")")
+          JlCxx_DIR=${JlCxx_DIR//\"/}
+          mkdir -p build
+          cd build
+          cmake .. \
+               -D DOWNLOAD_GTEST=ON \
+               -D BUILD_TESTS=ON \
+               -D JlCxx_DIR=$JlCxx_DIR \
+               -DCMAKE_BUILD_TYPE=Release \
+               -D CMAKE_INSTALL_PREFIX=$CONDA_PREFIX
+
+      - name: build
+        shell: bash -l {0}
+        run: |
+          cd build
+          make -j ${{ steps.cpu-cores.outputs.count }} test_xtensor_julia
+
+      - name: Test xtensor-julia
+        shell: bash -l {0}
+        run: |
+          cd build
+          make xtest
+
+      - name: install xtensor-julia
+        shell: bash -l {0}
+        run: |
+          cd build
+          make install
+
+  # win:
+    
+  #   runs-on: ${{ matrix.os }}
+     
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ windows-2016 ]
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: install mamba
+  #       uses: mamba-org/provision-with-micromamba@main
+  #       with:
+  #         environment-file: environment-dev.yml
+  #         environment-name: xtensor-julia
+
+  #     - name: micromamba shell hook
+  #       shell: powershell
+  #       run: |
+  #         micromamba shell hook -s cmd.exe -p C:\Users\runneradmin\micromamba
+  #         Get-Content -Path C:\Users\runneradmin\micromamba\condabin\mamba_hook.bat
+
+  #     - name: install cxx compiler
+  #       shell: cmd
+  #       run: |
+  #         call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+  #         micromamba install cxx-compiler -c conda-forge -y
+
+  #     - name: install julia
+  #       uses: julia-actions/setup-julia@v1
+  #       with:
+  #         version: 1.6.3
+
+  #     - name: install CxxWrap
+  #       shell: cmd
+  #       run: |
+  #         julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
+
+  #     - name: install host dependencies
+  #       shell: bash -l {0}
+  #       run: |
+  #         call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+  #         micromamba install xtensor=0.24.0 -c conda-forge -y
+  #         micromamba install gtest -c conda-forge -y
+
+  #     - name: cmake configure
+  #       shell: cmd
+  #       run: |
+  #         call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+  #         julia -E "using CxxWrap; joinpath(CxxWrap.prefix_path(), \"lib\", \"cmake\", \"JlCxx\")" > temp.txt
+  #         set /p JlCxx_DIR=<temp.txt
+  #         set JlCxx_DIR=%JlCxx_DIR:"=%
+  #         mkdir -p build
+  #         cd build
+  #         cmake .. ^
+  #              -G "NMake Makefiles" ^
+  #              -D BUILD_TESTS=ON ^
+  #              -D JlCxx_DIR=%JlCxx_DIR% ^
+  #              -DCMAKE_BUILD_TYPE=Release ^
+  #              -D CMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\\LIBRARY
+
+  #     - name: build
+  #       shell: cmd
+  #       run: |
+  #         call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+  #         cd build
+  #         nmake test_xtensor_julia
+
+  #     - name: run test
+  #       shell: cmd
+  #       run: |
+  #         call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+  #         cd build
+  #         nmake xtest

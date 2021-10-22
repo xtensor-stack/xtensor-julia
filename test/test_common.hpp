@@ -10,6 +10,19 @@
 #ifndef TEST_COMMON_HPP
 #define TEST_COMMON_HPP
 
+// Workaround for https://github.com/JuliaLang/julia/issues/34201#issuecomment-817081705.
+#ifdef _MSC_VER
+    #define NOMINMAX
+    #include <uv.h>
+    #include <windows.h>
+
+    template<typename T>
+    static inline T jl_atomic_load_relaxed(volatile T *obj)
+    {
+        return jl_atomic_load_acquire(obj);
+    }
+#endif
+
 #include "xtensor/xlayout.hpp"
 #include "xtensor/xmanipulation.hpp"
 
