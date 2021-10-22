@@ -9,27 +9,9 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-5
-      env: COMPILER=gcc GCC=5
-      julia: 1.0.1
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-      env: COMPILER=gcc GCC=6
-      julia: 1.1.1
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
             - g++-7
       env: COMPILER=gcc GCC=7
-      julia: 1.2.0
+      julia: 1.6.3
     - os: linux
       addons:
         apt:
@@ -42,11 +24,11 @@ matrix:
     - os: osx
       osx_image: xcode8
       compiler: clang
-      julia: 1.1.1
+      julia: 1.6.3
     - os: osx
       osx_image: xcode8
       compiler: clang
-      julia: 1.1.1
+      julia: 1.6.3
   allow_failures:
     - julia: nightly
 env:
@@ -84,10 +66,10 @@ install:
     - conda info -a
     # Install xtensor and other conda requirements
     - conda install cmake -c conda-forge
-    - conda install xtensor==0.21.2 -c conda-forge
+    - conda install xtensor==0.24.0 -c conda-forge
     # Install CxxWrap
     # TODO: switch to standalone libcxxwrap-julia
-    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.2\"))"
+    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.3\"))"
     # Retrieve JlCxx_DIR from CxxWrap
     - JlCxx_DIR=$(julia -E "using CxxWrap; joinpath(dirname(pathof(CxxWrap)), \"..\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")")
     - JlCxx_DIR=${JlCxx_DIR//\"/}

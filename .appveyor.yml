@@ -19,10 +19,10 @@ init:
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%MINICONDA%\\Library\\bin;%PATH%"
   # Download most recent Julia Windows binary
   - ps: if($env:Platform -eq "x64"){(new-object net.webclient).DownloadFile(
-        $("https://julialang-s3.julialang.org/bin/winnt/x64/1.2/julia-1.2.0-win64.exe"),
+        $("https://julialang-s3.julialang.org/bin/winnt/x64/1.6/julia-1.6.3-win64.exe"),
         "C:\projects\julia-binary.exe")}
   - ps: if($env:Platform -eq "x86"){(new-object net.webclient).DownloadFile(
-        $("https://julialang-s3.julialang.org/bin/winnt/x86/1.2/julia-1.2.0-win32.exe"),
+        $("https://julialang-s3.julialang.org/bin/winnt/x86/1.6/julia-1.6.3-win32.exe"),
         "C:\projects\julia-binary.exe")}
   # Run installer silently, output to C:\projects\julia-build
   - C:\projects\julia-binary.exe /S /D=C:\projects\julia-build
@@ -33,9 +33,9 @@ install:
   - conda update -q conda
   - conda info -a
   - conda install gtest cmake -c conda-forge
-  - conda install xtensor==0.21.2 -c conda-forge
+  - conda install xtensor==0.24.0 -c conda-forge
   # Install CxxWrap
-  - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.2\"))"
+  - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
   # Retrieve JlCxx_DIR from CxxWrap
   - C:\projects\julia-build\bin\julia -E "using CxxWrap; joinpath(dirname(pathof(CxxWrap)), \"..\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")" > temp.txt
   - set /p JlCxx_DIR=<temp.txt
