@@ -39,8 +39,6 @@ jobs:
       - name: cmake configure
         shell: bash -l {0}
         run: |
-          echo "CONDA PREFIX"
-          echo $CONDA_PREFIX
           mkdir -p build
           cd build
           cmake .. \
@@ -50,9 +48,8 @@ jobs:
                -D CMAKE_INSTALL_PREFIX=$CONDA_PREFIX
 
       - name: install CxxWrap
+        shell: bash -l {0}
         run: |
-          echo "CONDA PREFIX"
-          echo $CONDA_PREFIX
           $CONDA_PREFIX/bin/julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
 
       - name: build
