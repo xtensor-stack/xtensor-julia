@@ -36,30 +36,25 @@ jobs:
         run: |
           $HOME/micromamba-bin/micromamba install cmake cxx-compiler -c conda-forge -y
 
-      # Cannot use julia from setup-julia because of https://github.com/julia-actions/setup-julia/issues/89
-      # - name: install julia
-      #   uses: julia-actions/setup-julia@v1
-      #   with:
-      #     version: 1.6.3
-
-      - name: install CxxWrap
-        shell: bash -l {0}
-        run: |
-          julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
-
       - name: cmake configure
         shell: bash -l {0}
         run: |
-          JlCxx_DIR=$(julia -E "using CxxWrap; joinpath(CxxWrap.prefix_path(), \"lib\", \"cmake\", \"JlCxx\")")
-          JlCxx_DIR=${JlCxx_DIR//\"/}
           mkdir -p build
           cd build
           cmake .. \
                -D DOWNLOAD_GTEST=ON \
                -D BUILD_TESTS=ON \
-               -D JlCxx_DIR=$JlCxx_DIR \
                -DCMAKE_BUILD_TYPE=Release \
                -D CMAKE_INSTALL_PREFIX=$CONDA_PREFIX
+
+      - name: install CxxWrap
+        shell: bash -l {0}
+        run: |
+          julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
+          export CXXWRAP_PREFIX=$(julia -E "using CxxWrap; CxxWrap.prefix_path()")
+          export CXXWRAP_PREFIX=$(eval echo $CXXWRAP_PREFIX)
+          rm -rf $CXXWRAP_PREFIX
+          ln -s $CONDA_PREFIX $CXXWRAP_PREFIX
 
       - name: build
         shell: bash -l {0}
