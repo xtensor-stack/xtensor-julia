@@ -43,6 +43,7 @@ jobs:
       #     version: 1.6.3
 
       - name: install CxxWrap
+        shell: bash -l {0}
         run: |
           julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
 
