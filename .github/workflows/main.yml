@@ -99,27 +99,20 @@ jobs:
           micromamba shell hook -s cmd.exe -p C:\Users\runneradmin\micromamba
           Get-Content -Path C:\Users\runneradmin\micromamba\condabin\mamba_hook.bat
 
-      - name: install cxx compiler
-        shell: cmd
-        run: |
-          call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
-          micromamba install cxx-compiler -c conda-forge -y
-
       - name: install julia
         uses: julia-actions/setup-julia@v1
         with:
           version: 1.6.3
 
+      - name: Set up MinGW
+        uses: egor-tensin/setup-mingw@v2
+        with:
+          platform: x64
+
       - name: install CxxWrap
         shell: cmd
         run: |
           julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
-
-      - name: install host dependencies
-        shell: bash -l {0}
-        run: |
-           call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
-           micromamba install gtest -c conda-forge -y
 
       - name: cmake configure
         shell: cmd
@@ -131,22 +124,15 @@ jobs:
           mkdir -p build
           cd build
           cmake .. ^
-              -G "NMake Makefiles" ^
-              -D BUILD_TESTS=ON ^
+              -G "MinGW Makefiles" ^
+              -D DOWNLOAD_GTEST=ON ^
               -D JlCxx_DIR=%JlCxx_DIR% ^
               -DCMAKE_BUILD_TYPE=Release ^
               -D CMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\\LIBRARY
 
-  #     - name: build
-  #       shell: cmd
-  #       run: |
-  #         call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
-  #         cd build
-  #         nmake test_xtensor_julia
-
-  #     - name: run test
-  #       shell: cmd
-  #       run: |
-  #         call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
-  #         cd build
-  #         nmake xtest
+      - name: build
+        shell: cmd
+        run: |
+          call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+          cd build
+          cmake --build .
