@@ -71,7 +71,8 @@ jobs:
         shell: bash -l {0}
         run: |
           cd build
-          make xtest
+          cd test
+          ./test_xtensor_julia
 
       - name: install xtensor-julia
         shell: bash -l {0}
