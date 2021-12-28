@@ -50,11 +50,13 @@ jobs:
       - name: install CxxWrap
         shell: bash -l {0}
         run: |
+          export OVERRIDES=$CONDA_PREFIX/share/julia/artifacts/Overrides.toml
+          mkdir -p "${OVERRIDES%/*}"
+          touch $OVERRIDES
+          echo [3eaa8342-bff7-56a5-9981-c04077f7cee7] >> $OVERRIDES
+          echo libcxxwrap = \"$CONDA_PREFIX/lib\"     >> $OVERRIDES
+          cat $OVERRIDES
           julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
-          export CXXWRAP_PREFIX=$(julia -E "using CxxWrap; CxxWrap.prefix_path()")
-          export CXXWRAP_PREFIX=$(eval echo $CXXWRAP_PREFIX)
-          rm -rf $CXXWRAP_PREFIX
-          ln -s $CONDA_PREFIX $CXXWRAP_PREFIX
 
       - name: build
         shell: bash -l {0}
