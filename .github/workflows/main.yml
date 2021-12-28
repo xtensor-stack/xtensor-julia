@@ -28,7 +28,7 @@ jobs:
       - name: install mamba
         uses: mamba-org/provision-with-micromamba@main
         with:
-          environment-file: environment-dev.yml
+          environment-file: environment-dev-unix.yml
           environment-name: xtensor-julia
 
       - name: install build dependencies
