@@ -134,9 +134,9 @@ jobs:
         shell: cmd
         run: |
           call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
-          mamba install curl
+          mamba install curl 7zip
           curl --output depends.zip --url https://www.dependencywalker.com/depends22_x64.zip
-          tar -xf depends.zip
+          7z u depends.zip *          
           Move /y depends.exe %CONDA_PREFIX%/Library/bin/
           Move /y depends.dll %CONDA_PREFIX%/Library/bin/
 
