@@ -54,7 +54,7 @@ jobs:
           mkdir -p "${OVERRIDES%/*}"
           touch $OVERRIDES
           echo [3eaa8342-bff7-56a5-9981-c04077f7cee7] >> $OVERRIDES
-          echo libcxxwrap = \"$CONDA_PREFIX/lib\"     >> $OVERRIDES
+          echo libcxxwrap = \"$CONDA_PREFIX/bin\"     >> $OVERRIDES
           cat $OVERRIDES
           julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
 
