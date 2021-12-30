@@ -389,8 +389,8 @@ namespace jlcxx
         }
     };
 
-    template <class T, std::size_t N>
-    struct static_type_mapping<xt::jltensor<T, N>>
+    template <class T, std::size_t N, class SubTrait>
+    struct static_type_mapping<xt::jltensor<T, N>, CxxWrappedTrait<SubTrait>>
     {
         using type = jl_array_t*;
     };
