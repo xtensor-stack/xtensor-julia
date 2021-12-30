@@ -146,4 +146,4 @@ jobs:
           call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
           cd build
           cmake --build .
-          depends ./xtensor-julia
+          depends /c ./xtensor-julia
