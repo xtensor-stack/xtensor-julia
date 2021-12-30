@@ -141,6 +141,19 @@ jobs:
           set /p JlCxx_BIN=<temp.txt
           set JlCxx_BIN=%JlCxx_BIN:"=%
           set PATH=%PATH%;%JlCxx_BIN%
+          echo "======================"
           echo "PATH:" %PATH%
+          echo "======================"
+          echo "Ldd"
           ldd .\test_xtensor_julia
+          echo "======================"
+          echo "Dependency walker"
+          mamba install curl 7zip
+          curl --output depends.zip --url https://www.dependencywalker.com/depends22_x64.zip
+          7z e depends.zip 
+          Move /y depends.exe %CONDA_PREFIX%/Library/bin/
+          Move /y depends.dll %CONDA_PREFIX%/Library/bin/
+          depends /c .\xtensor-julia
+          echo "======================"
+          echo "Run tests"
           .\test_xtensor_julia
