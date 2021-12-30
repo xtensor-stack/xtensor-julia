@@ -370,8 +370,8 @@ namespace jlcxx
      * Template specializations for ConvertToJulia and ConvertToCpp *
      ****************************************************************/
 
-    template <class T, std::size_t N>
-    struct ConvertToJulia<xt::jltensor<T, N>>
+    template <class T, std::size_t N, class SubTrait>
+    struct ConvertToJulia<xt::jltensor<T, N>, CxxWrappedTrait<SubTrait>>
     {
         template <class U>
         jl_array_t* operator()(U&& arr) const
@@ -380,8 +380,8 @@ namespace jlcxx
         }
     };
 
-    template <class T, std::size_t N>
-    struct ConvertToCpp<xt::jltensor<T, N>>
+    template <class T, std::size_t N, class SubTrait>
+    struct ConvertToCpp<xt::jltensor<T, N>, CxxWrappedTrait<SubTrait>>
     {
         xt::jltensor<T, N> operator()(jl_array_t* arr) const
         {
@@ -395,8 +395,8 @@ namespace jlcxx
         using type = jl_array_t*;
     };
 
-    template <class T, std::size_t N>
-    struct julia_type_factory<xt::jltensor<T, N>>
+    template <class T, std::size_t N, class SubTrait>
+    struct julia_type_factory<xt::jltensor<T, N>, CxxWrappedTrait<SubTrait>>
     {
         static jl_datatype_t* julia_type()
         {
