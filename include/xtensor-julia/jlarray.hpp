@@ -448,8 +448,8 @@ namespace jlcxx
         }
     };
 
-    template <class T>
-    struct static_type_mapping<xt::jlarray<T>>
+    template <class T, class SubTrait>
+    struct static_type_mapping<xt::jlarray<T>, CxxWrappedTrait<SubTrait>>
     {
         using type = jl_array_t*;
     };
