@@ -130,9 +130,20 @@ jobs:
               -DCMAKE_BUILD_TYPE=Release ^
               -D CMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\\LIBRARY
 
+      - name: depends
+        shell: cmd
+        run: |
+          call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+          mamba install curl
+          curl --output depends.zip --url https://www.dependencywalker.com/depends22_x64.zip
+          tar -xf depends.zip
+          Move /y depends.exe %CONDA_PREFIX%/Library/bin/
+          Move /y depends.dll %CONDA_PREFIX%/Library/bin/
+
       - name: build
         shell: cmd
         run: |
           call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
           cd build
           cmake --build .
+          depends ./xtensor-julia
