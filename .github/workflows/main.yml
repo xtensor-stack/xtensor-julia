@@ -62,18 +62,12 @@ jobs:
           cd build
           make -j ${{ steps.cpu-cores.outputs.count }} test_xtensor_julia
 
-      - name: Test xtensor-julia
+      - name: test
         shell: bash -l {0}
         run: |
           cd build
           cd test
           ./test_xtensor_julia
-
-      - name: install xtensor-julia
-        shell: bash -l {0}
-        run: |
-          cd build
-          make install
 
   win:
     
@@ -136,3 +130,15 @@ jobs:
           call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
           cd build
           cmake --build .
+
+      - name: test
+        shell: cmd
+        run: |
+          call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+          cd build
+          cd test
+          julia -E "using CxxWrap; joinpath(CxxWrap.prefix_path(), \"bin\")" > temp.txt
+          set /p JlCxx_BIN=<temp.txt
+          set JlCxx_BIN=%JlCxx_BIN:"=%
+          set PATH=%PATH%;%JlCxx_BIN%
+          .\test_xtensor_julia
