@@ -141,4 +141,5 @@ jobs:
           set /p JlCxx_BIN=<temp.txt
           set JlCxx_BIN=%JlCxx_BIN:"=%
           set PATH=%PATH%;%JlCxx_BIN%
+          ldd .\test_xtensor_julia
           .\test_xtensor_julia
