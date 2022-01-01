@@ -93,12 +93,6 @@ jobs:
           environment-file: environment-dev-win.yml
           environment-name: xtensor-julia
 
-      - name: micromamba shell hook
-        shell: powershell
-        run: |
-          micromamba shell hook -s cmd.exe -p C:\Users\runneradmin\micromamba
-          Get-Content -Path C:\Users\runneradmin\micromamba\condabin\mamba_hook.bat
-
       - name: install julia
         uses: julia-actions/setup-julia@v1
         with:
@@ -110,14 +104,14 @@ jobs:
           platform: x64
 
       - name: install CxxWrap
-        shell: cmd
+        shell: cmd /C call {0}
         run: |
           julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
 
       - name: cmake configure
-        shell: cmd
+        shell: cmd /C call {0}
         run: |
-          call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+          micromamba activate xtensor-julia
           julia -E "using CxxWrap; joinpath(CxxWrap.prefix_path(), \"lib\", \"cmake\", \"JlCxx\")" > temp.txt
           set /p JlCxx_DIR=<temp.txt
           set JlCxx_DIR=%JlCxx_DIR:"=%
@@ -131,8 +125,8 @@ jobs:
               -D CMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\\LIBRARY
 
       - name: build
-        shell: cmd
+        shell: cmd /C call {0}
         run: |
-          call C:\Users\runneradmin\micromamba\condabin\micromamba.bat activate xtensor-julia
+          micromamba activate xtensor-julia
           cd build
           cmake --build .
