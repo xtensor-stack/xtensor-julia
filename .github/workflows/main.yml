@@ -104,13 +104,13 @@ jobs:
           platform: x64
 
       - name: install CxxWrap
-        shell: cmd /C CALL {0}
-        run: |
+        shell: cmd /C call {0}
+        run: >-
           julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
 
       - name: cmake configure
-        shell: cmd /C CALL {0}
-        run: |
+        shell: cmd /C call {0}
+        run: >-
           julia -E "using CxxWrap; joinpath(CxxWrap.prefix_path(), \"lib\", \"cmake\", \"JlCxx\")" > temp.txt
           set /p JlCxx_DIR=<temp.txt
           set JlCxx_DIR=%JlCxx_DIR:"=%
@@ -124,7 +124,7 @@ jobs:
               -D CMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\\LIBRARY
 
       - name: build
-        shell: cmd /C CALL {0}
-        run: |
+        shell: cmd /C call {0}
+        run: >-
           cd build
           cmake --build .
