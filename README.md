@@ -135,12 +135,6 @@ make install
  
 We also provide a Julia package for xtensor, which has been packaged for both conda and Pkg (Julia's package manager). The repository for the Julia package is https://github.com/xtensor-stack/Xtensor.jl.
  
-To install the conda package:
-
-```bash
-conda install Xtensor.jl -c conda-forge
-```
-
 To install the Julia package:
 
 ```julia
