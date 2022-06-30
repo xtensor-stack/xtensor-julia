@@ -4,4 +4,4 @@ channels:
 dependencies:
   - cmake
   - xtensor=0.24.0
-  - libcxxwrap-julia=0.8.3
+  - libcxxwrap-julia=0.9.1

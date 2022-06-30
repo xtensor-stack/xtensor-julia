@@ -50,7 +50,7 @@ jobs:
       - name: install CxxWrap
         shell: bash -l {0}
         run: |
-          julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
+          julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.12.0\"))"
           export CXXWRAP_PREFIX=$(julia -E "using CxxWrap; CxxWrap.prefix_path()")
           export CXXWRAP_PREFIX=$(eval echo $CXXWRAP_PREFIX)
           rm -rf $CXXWRAP_PREFIX
@@ -106,7 +106,7 @@ jobs:
       - name: install CxxWrap
         shell: cmd /C call {0}
         run: |
-          julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.11.2\"))"
+          julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.12.0\"))"
 
       - name: cmake configure
         shell: cmd /C call {0}
